@@ -4,11 +4,9 @@ info:
   version: 2.2.0
   title: Toast Orders API
   description: |
-    Operations that create and retrieve information about restaurant 
-    guest orders. Including checks, items ordered, prices, and 
-    discounts.
-  contact:
-    email: developer-support@toasttab.com
+    Operations that create and retrieve information about restaurant
+    guest orders. Information on orders includes checks, items ordered,
+    prices, and discounts.
 schemes:
   - https
 host: toast-api-server
@@ -81,7 +79,6 @@ definitions:
             type: string
             description: |
               Indicates the way that the order was placed. One of:
-
               * `In Store`
               * `Online`
               * `OPT`
@@ -89,7 +86,6 @@ definitions:
               * `Kiosk`
               * `Caller Id`
               * `Google`
-
               Response only.
           duration:
             type: integer
@@ -163,21 +159,17 @@ definitions:
               employee to approve it or that the order is in a
               restaurant kitchen being fulfilled. Response only. The
               `approvalStatus` value can be:
-
               * `NEEDS_APPROVAL` - the order has been created but will
               not be fulfilled by the restaurant until an employee
               approves it.
-
               * `APPROVED` - the order is being fulfilled by the
               restaurant or it has been fulfilled in the past. Orders
               remain in this state indefinitely after they are
               fulfilled.
-
               * `FUTURE` - the order is expected to be fulfilled by the
               restaurant at a future date and time. Restaurant
               employees will receive information about the order at the
               date and time that it is ready to be fulfilled.
-
               * `NOT_APPROVED` - restaurant employees received
               information about the order and did not approve it for
               fulfillment. An order enters this state after a period of
@@ -220,7 +212,6 @@ definitions:
               platform restaurant. `POST` only. The orders API does not
               include the `marketplaceFacilitatorTaxInfo` value in
               response data.
-
               **Note**: you can only include this information if your
               Toast API client is associated with a designated
               marketplace facilitator organization. Most Toast API
@@ -268,10 +259,8 @@ definitions:
               A <a href="#/definitions/Customer">`Customer`</a> object
               that holds information about a restaurant guest
               associated with the check.
-
               * Required for `POST` requests for orders that use the
                 take-out or delivery dining options.
-
               * For checks that apply or accrue Toast loyalty points, a
                 `GET` request returns a <a
                 href="#/definitions/Customer">`Customer`</a> object
@@ -452,16 +441,12 @@ definitions:
               Indicates which guest seat at a restaurant table ordered
               a menu item selection. Restaurant employees can choose the
               seat number when they add a menu item to a guest check.
-
               * A positive integer value indicates the seat number for
                 the menu item.
-
               * `0` - indicates that the menu item is being shared by
                 multiple guests.
-
               * `-1` - indicates that the restaurant employee did not
                 select a seat for the menu item.
-
               Response only.
           unitOfMeasure:
             type: string
@@ -609,13 +594,11 @@ definitions:
               pricing strategy. If you do not supply an
               `openPriceAmount` value for an open price menu item, the
               orders API will set the price to 0.00.
-
               If a menu item is configured to use tax-inclusive
               pricing, the orders API calculates the base price and tax
               amount based on the open price that you specify. _The
               open-price amount includes both the base-price and
               inclusive tax amount._
-
               This value is write-only. The `openPriceAmount` is not
               present in orders API return data.
             type: number
@@ -640,7 +623,6 @@ definitions:
               marketplace facilitator organization that created the
               order. `POST` only. The orders API does not include the
               `externalPriceAmount` value in return data.
-
               **Note**: you can only include this information if your
               Toast API client is associated with a designated
               marketplace facilitator organization. Most Toast API
@@ -804,7 +786,6 @@ definitions:
             description: |
               Note: this value is in limited release. Your orders API
               integration might not include the `cardPaymentId` value.
-
               A unique identifier for the credit card used for a
               `CREDIT` type payment. The identifier string is generated
               by the Toast POS system and _does not include any
@@ -812,11 +793,9 @@ definitions:
               credit card account._ The identifier is unique within
               your restaurant management group.
               The value is `null` for the following payment types:
-
               * Payment types other than `CREDIT`
               * Credit card payments entered using EMV (chip cards)
               * Credit card payments entered by keying in card numbers
-
               Response only.
           giftCard:
             type: object
@@ -1159,19 +1138,15 @@ definitions:
               Indicates whether the marketplace facilitator that
               received a guest order remitted the tax amount on behalf
               of the Toast platform restaurant.
-
               You can use this information to identify tax amounts that
               have already been paid by an ordering service provider
               and do not need to be paid again.
-
               * `true` - the marketplace facilitator paid the tax
               amount on behalf of the Toast platform restaurant
               location.
-
               * `false` - the marketplace facilitator has not paid the
               tax amount. The Toast platform restaurant location may be
               required to pay the tax amount.
-
               **Note**: Toast API response data is not guidance or
               advice for tax compliance.
   AppliedDiscountTrigger:
@@ -1572,7 +1547,6 @@ definitions:
       organization remits on behalf of a Toast platform restaurant.
       `POST` only. The orders API does not include the
       `MarketplaceFacilitatorTaxInfo` object in response data.
-
       **Note**: you can only include this information if your
       Toast API client is associated with a designated
       marketplace facilitator organization. Most Toast API
@@ -1583,11 +1557,9 @@ definitions:
           Indicates whether a marketplace facilitator organization has
           paid the tax amounts for an order on behalf of the restaurant
           that fulfills the order.
-
           If you include this value, you indicate that the marketplace
           facilitator order uses the prices and tax amounts calculated
           by the Toast platform.
-
           If you include this value, you *must not* include the `taxes`
           value and you *must not* include the `externalPriceAmount`
           for menu item selections in the order.
@@ -1596,7 +1568,6 @@ definitions:
         description: |
           An array of `AppliedTaxRate` objects that describe the tax
           amounts that apply to a marketplace facilitator order.
-
           If you include this value, you must include an `externalPriceAmount`
           for each menu item selection in the order.
         type: array
@@ -1606,7 +1577,7 @@ definitions:
 paths:
   /payments:
     get:
-      summary: Get identifiers of payments processed
+      summary: Get payment identifiers
       description: Returns a list of the GUIDs for each payment made during
         one restaurant business day. The specific hours that make up a business
         day depend on the business day cutoff in the restaurant configuration,
@@ -1616,6 +1587,7 @@ paths:
         or local time for an API client). You must include one of the
         `paidBusinessDate`, `refundBusinessDate`, or `voidBusinessDate` query
         parameters.
+      operationId: getPayments
       produces:
         - application/json
       parameters:
@@ -1655,11 +1627,12 @@ paths:
               type: string
   /payments/{guid}:
     get:
-      summary: Get information about a payment
+      summary: Get single payment
       description: Returns a JSON
         <a href="#/definitions/Payment">Payment</a> object containing
         detailed information about a  single payment, specified by its
         GUID.
+      operationId: getPaymentsGuid
       produces:
         - application/json
       parameters:
@@ -1686,7 +1659,7 @@ paths:
 
   /prices:
     post:
-      summary: Get prices for an order
+      summary: Get order prices
       description: |
         Calculates the check price amounts, tax amounts, and service
         charges for an <a href="#/definitions/Order">`Order`</a> object
@@ -1698,7 +1671,6 @@ paths:
         an order are not present in the response data for the `prices`
         endpoint. For example, the order GUID is not set because the
         Toast platform does not create persistent data for the order.
-
         The calculated price can change between requests to the
         `prices` endpoint with the same <a
         href="#/definitions/Order">`Order`</a> object if enough time
@@ -1706,6 +1678,7 @@ paths:
         possible because the restaurant configuration can change and
         because some pricing configuration is based on time and date
         schedules.
+      operationId: postPrices
       produces:
         - application/json
       parameters:
@@ -1764,8 +1737,9 @@ paths:
             the Toast support team.
   /orders/{guid}:
     get:
-      summary: Get information about an order
+      summary: Get single order
       description: Retrieves detailed information about a single order, specified by its GUID.
+      operationId: getOrders
       produces:
         - application/json
       parameters:
@@ -1792,18 +1766,17 @@ paths:
           description: There was a problem serializing the Order entity.
   /ordersBulk:
     get:
-      summary: Get information about multiple orders
+      summary: Get multiple orders
       description: |
         Returns an array of `Order` objects containing detailed
         information about all orders opened during a period of time.
         You can return the orders for either a specific period of time
         or for one business day.
-
         * Specify both `startDate` and `endDate` to return the orders
           modified during that period of time.
-
         * Specify the `businessDate` to return the orders promised
           during that business day.
+      operationId: getOrdersBulk
       produces:
       - application/json
       parameters:
@@ -1894,16 +1867,16 @@ paths:
            the Toast support team.
   /orders/{orderGuid}/checks/{checkGuid}/payments:
     post:
-      summary: Add payments to a check
+      summary: Post payments
       description: |
         Adds one or more payments to a check in an existing order. Include
         information about the payments in an array of `Payment` objects in the
         message body. Specify the Toast POS system GUID of the order
         and check in REST path parameters.
-
         For more information, see <a
         href="http://dev.toasttab.com/Ie5QH/apiAddingPaymentsToACheck.html">Adding
         Payments to a Check</a> in the _Toast API Developer's Guide_.
+      operationId: postPayments
       produces:
         - application/json
       parameters:
@@ -1940,7 +1913,7 @@ paths:
             $ref: '#/definitions/Order'
   /orders/{orderGuid}/checks/{checkGuid}/payments/{paymentGuid}:
     patch:
-      summary: Update tip amount in a payment
+      summary: Update tip
       description: |
         Updates the tip amount in an existing payment for a check in an
         order. Include the new `tipAmount` value in a `Payment` object
@@ -1948,10 +1921,10 @@ paths:
         `Payment` object value for a `PATCH` request. Specify the Toast
         POS system GUID of the order, check, and payment in REST path
         parameters.
-
         For more information, see <a
         href="http://dev.toasttab.com/Ie5QH/apiUpdatingTipsInAPayment.html">Updating
         Tips in a Payment</a> in the _Toast API Developer's Guide_.
+      operationId: patchTips
       produces:
         - application/json
       parameters:
@@ -2001,10 +1974,10 @@ paths:
         existing order. Include an array of <a
         href="#/definitions/Discount">`Discount`</a> objects in the
         message body.
-
         For more information, see <a
         href="http://dev.toasttab.com/Ie5QH/apiAddingDiscountsToChecks.html">Adding
         Discounts to Checks</a> in the _Toast API Developer's Guide_.
+      operationId: addCheckDiscounts
       produces:
         - application/json
       parameters:
@@ -2046,10 +2019,10 @@ paths:
         in a check in an existing order. Include an array of <a
         href="#/definitions/Discount">`Discount`</a> objects in the
         message body.
-
         For more information, see <a
         href="http://dev.toasttab.com/Ie5QH/apiAddingDiscountsToChecks.html">Adding
         Discounts to Checks</a> in the _Toast API Developer's Guide_.
+      operationId: addItemDiscounts
       produces:
         - application/json
       parameters:
@@ -2092,7 +2065,7 @@ paths:
             $ref: '#/definitions/Order'
   /orders:
     post:
-      summary: Add an order
+      summary: Post order
       description: Submits an order to the server. Returns a JSON <a href="#/definitions/Order">Order</a> object if successful.
       operationId: postOrders
       produces:
@@ -2128,18 +2101,16 @@ paths:
           description: An unexpected internal error occurred. There is a requestId attached to this error that can be referenced by Toast.
 
     get:
-       summary: Get identifiers of orders processed
+       summary: Get order identifiers
        description: |
           Gets a list of the GUIDs of all orders opened during a period of
           time. You can return the list of orders for either a period of up to
           one hour or for one business day.
-
           * Specify both `startDate` and `endDate` to return the list of orders
             modified during a period of up to one hour.
-
           * Specify the `businessDate` to return the list of orders promised
             for delivery during a business day.
-
+       operationId: getOrderGuids
        produces:
         - application/json
        parameters:
@@ -2197,7 +2168,7 @@ paths:
 
   /applicableDiscounts:
     post:
-      summary: Get the discounts that apply to an order
+      summary: Get applicable discounts
       description: |
         Returns an array of <a
         href="#/definitions/ApplicableDiscount">`ApplicableDiscount`</a>
@@ -2209,6 +2180,7 @@ paths:
         `ApplicableDiscount` object, the `applicableDiscounts` endpoint
         returns the only the discounts that are associated with the
         promotional code that you supply.
+      operationId: postApplicableDiscounts
       produces:
         - application/json
       parameters:
