@@ -1587,7 +1587,7 @@ paths:
         or local time for an API client). You must include one of the
         `paidBusinessDate`, `refundBusinessDate`, or `voidBusinessDate` query
         parameters.
-      operationId: getPayments
+      operationId: paymentsGet
       produces:
         - application/json
       parameters:
@@ -1632,7 +1632,7 @@ paths:
         <a href="#/definitions/Payment">Payment</a> object containing
         detailed information about a  single payment, specified by its
         GUID.
-      operationId: getPaymentsGuid
+      operationId: paymentsGuidGet
       produces:
         - application/json
       parameters:
@@ -1678,7 +1678,7 @@ paths:
         possible because the restaurant configuration can change and
         because some pricing configuration is based on time and date
         schedules.
-      operationId: postPrices
+      operationId: pricesPost
       produces:
         - application/json
       parameters:
@@ -1739,7 +1739,7 @@ paths:
     get:
       summary: Get single order
       description: Retrieves detailed information about a single order, specified by its GUID.
-      operationId: getOrders
+      operationId: ordersGuidGet
       produces:
         - application/json
       parameters:
@@ -1776,7 +1776,7 @@ paths:
           modified during that period of time.
         * Specify the `businessDate` to return the orders promised
           during that business day.
-      operationId: getOrdersBulk
+      operationId: ordersBulkGet
       produces:
       - application/json
       parameters:
@@ -1876,7 +1876,7 @@ paths:
         For more information, see <a
         href="http://dev.toasttab.com/Ie5QH/apiAddingPaymentsToACheck.html">Adding
         Payments to a Check</a> in the _Toast API Developer's Guide_.
-      operationId: postPayments
+      operationId: paymentsPost
       produces:
         - application/json
       parameters:
@@ -1924,7 +1924,7 @@ paths:
         For more information, see <a
         href="http://dev.toasttab.com/Ie5QH/apiUpdatingTipsInAPayment.html">Updating
         Tips in a Payment</a> in the _Toast API Developer's Guide_.
-      operationId: patchTips
+      operationId: tipsPatch
       produces:
         - application/json
       parameters:
@@ -1977,7 +1977,7 @@ paths:
         For more information, see <a
         href="http://dev.toasttab.com/Ie5QH/apiAddingDiscountsToChecks.html">Adding
         Discounts to Checks</a> in the _Toast API Developer's Guide_.
-      operationId: addCheckDiscounts
+      operationId: discountsCheckPost
       produces:
         - application/json
       parameters:
@@ -2022,7 +2022,7 @@ paths:
         For more information, see <a
         href="http://dev.toasttab.com/Ie5QH/apiAddingDiscountsToChecks.html">Adding
         Discounts to Checks</a> in the _Toast API Developer's Guide_.
-      operationId: addItemDiscounts
+      operationId: discountsItemPost
       produces:
         - application/json
       parameters:
@@ -2067,7 +2067,7 @@ paths:
     post:
       summary: Post order
       description: Submits an order to the server. Returns a JSON <a href="#/definitions/Order">Order</a> object if successful.
-      operationId: postOrders
+      operationId: ordersPost
       produces:
         - application/json
       parameters:
@@ -2110,7 +2110,7 @@ paths:
             modified during a period of up to one hour.
           * Specify the `businessDate` to return the list of orders promised
             for delivery during a business day.
-       operationId: getOrderGuids
+       operationId: orderGuidsGet
        produces:
         - application/json
        parameters:
@@ -2180,7 +2180,7 @@ paths:
         `ApplicableDiscount` object, the `applicableDiscounts` endpoint
         returns the only the discounts that are associated with the
         promotional code that you supply.
-      operationId: postApplicableDiscounts
+      operationId: applicableDiscountsPost
       produces:
         - application/json
       parameters:
