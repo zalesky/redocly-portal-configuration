@@ -1859,9 +1859,9 @@ paths:
             items:
               type: string
   /prices:
-    tags:
-        - Orders
     post:
+      tags:
+        - Orders
       summary: Get order prices
       description: |
         Calculates the check price amounts, tax amounts, and service
