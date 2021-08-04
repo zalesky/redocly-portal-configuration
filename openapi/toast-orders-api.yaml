@@ -256,17 +256,15 @@ definitions:
               $ref: '#/definitions/Selection'
           customer:
             description: |
-              A <a href="#/definitions/Customer">`Customer`</a> object
+              A `Customer` object
               that holds information about a restaurant guest
               associated with the check.
               * Required for `POST` requests for orders that use the
                 take-out or delivery dining options.
               * For checks that apply or accrue Toast loyalty points, a
-                `GET` request returns a <a
-                href="#/definitions/Customer">`Customer`</a> object
+                `GET` request returns a `Customer` object
                 even when restaurant employees do not enter guest
-                information for a check. In this situation, the <a
-                href="#/definitions/Customer">`Customer`</a> object
+                information for a check. In this situation, the `Customer` object
                 contains only the Toast POS system GUID of the guest.
                 All other values are `null`.
             $ref: '#/definitions/Customer'
@@ -508,7 +506,7 @@ definitions:
             $ref: '#/definitions/ExternalReference'
           refundDetails:
             description: |
-              A <a href="#/definitions/RefundDetails">`RefundDetails`</a> object that
+              A `RefundDetails` object that
               contains information about refunded payment amounts for the item.
             type: object
             $ref: '#/definitions/RefundDetails'
@@ -1088,7 +1086,7 @@ definitions:
               - POST_DISCOUNT
           refundDetails:
             description: |
-              A <a href="#/definitions/RefundDetails">`RefundDetails`</a> object that
+              A `RefundDetails` object that
               contains information about refunded payment amounts for the item.
             type: object
             $ref: '#/definitions/RefundDetails'
@@ -1383,8 +1381,7 @@ definitions:
   ApplicableDiscountsRequest:
     type: object
     description: |
-      A wrapper object containing an <a
-      href="#/definitions/Order">`Order`</a> object, and an optional
+      A wrapper object containing an `Order` object, and an optional
       promotional code. You include an `ApplicableDiscountsRequest`
       object in the message body of a `POST` request to the
       `applicableDiscounts` endpoint.
@@ -1395,7 +1392,7 @@ definitions:
         type: object
         $ref: '#/definitions/Order'
         description: |
-         An <a href="#/definitions/Order">`Order`</a> object that
+         An `Order` object that
          contains information about the order you want to get discounts
          for.
       promoCode:
@@ -1417,25 +1414,22 @@ definitions:
     properties:
       discount:
         description: |
-          A <a href="#/definitions/ToastReference">`ToastReference`</a>
-          object containing the identifiers of the discount. Response only.
+          A `ToastReference` object containing the identifiers of the discount.
+          Response only.
         type: object
         $ref: '#/definitions/ToastReference'
       applicableChecks:
         description: |
           If the discount is applicable to a check, this value holds an
-          array of <a
-          href="#/definitions/ExternalReference">`ExternalReference`</a>
-          object containing the identifiers of the checks.
+          array of `ExternalReference` object containing the identifiers of the checks.
         type: array
         items:
           $ref: '#/definitions/ExternalReference'
       applicableSelections:
         description: |
           If the discount is applicable to a menu item selection, this
-          value holds an array of <a
-          href="#/definitions/ExternalReference">`ExternalReference`</a>
-          object containing the identifiers of the menu items.
+          value holds an array of `ExternalReference` object containing
+          the identifiers of the menu items.
         type: array
         items:
           $ref: '#/definitions/ExternalReference'
@@ -1628,8 +1622,7 @@ paths:
   /payments/{guid}:
     get:
       summary: Get single payment
-      description: Returns a JSON
-        <a href="#/definitions/Payment">Payment</a> object containing
+      description: Returns a JSON `Payment` object containing
         detailed information about a  single payment, specified by its
         GUID.
       operationId: paymentsGuidGet
@@ -1648,8 +1641,7 @@ paths:
           required: true
       responses:
         '200':
-          description: Returns a JSON
-            <a href="#/definitions/Payment">Payment</a> object.
+          description: Returns a JSON `Payment` object.
           schema:
             $ref: '#/definitions/Payment'
         '400':
@@ -1662,18 +1654,16 @@ paths:
       summary: Get order prices
       description: |
         Calculates the check price amounts, tax amounts, and service
-        charges for an <a href="#/definitions/Order">`Order`</a> object
-        you supply as a _required message body parameter_. The `prices`
-        endpoint validates the order you submit to ensure all
-        referenced data exists and that you include item selections in
-        the expected structure with all required modifier options. Some
-        values that would be present in the response data when creating
-        an order are not present in the response data for the `prices`
+        charges for an `Order` object you supply as a _required message
+        body parameter_. The `prices` endpoint validates the order you
+        submit to ensure all referenced data exists and that you include
+        item selections in the expected structure with all required modifier
+        options. Some values that would be present in the response data when
+        creating an order are not present in the response data for the `prices`
         endpoint. For example, the order GUID is not set because the
         Toast platform does not create persistent data for the order.
         The calculated price can change between requests to the
-        `prices` endpoint with the same <a
-        href="#/definitions/Order">`Order`</a> object if enough time
+        `prices` endpoint with the same `Order` object if enough time
         passes between the requests. The difference in price is
         possible because the restaurant configuration can change and
         because some pricing configuration is based on time and date
@@ -1691,9 +1681,9 @@ paths:
           type: string
         - name: body
           description: |
-            A _required_ JSON <a href="#/definitions/Order">`Order`</a>
-            object containing information about the checks, item
-            selections, modifier options, and other parts of the order.
+            A _required_ JSON `Order` object containing information about
+            the checks, item selections, modifier options, and other parts
+            of the order.
           in: body
           required: true
           schema:
@@ -1701,9 +1691,8 @@ paths:
       responses:
         '200':
           description: |
-            Success. The response body contains a JSON <a
-            href="#/definitions/Order">`Order`</a> object with values
-            for check amounts, taxes, service charges, and other parts
+            Success. The response body contains a JSON `Order` object with
+            values for check amounts, taxes, service charges, and other parts
             of the order. Because this endpoint only calculates prices,
             no parts of the order persist in the Toast platform and do
             not have GUIDs in the response object.
@@ -1896,8 +1885,7 @@ paths:
           type: string
         - name: body
           description: |
-            An array of JSON <a href="#/definitions/Payment">`Payment`</a> objects
-            containing information about the payments you are adding.
+            An array of JSON `Payment` objects containing information about the payments you are adding.
           in: body
           required: true
           schema:
@@ -1907,8 +1895,7 @@ paths:
       responses:
         '200':
           description: |
-            A JSON <a href="#/definitions/Order">`Order`</a> object
-            that includes the payments that you added.
+            A JSON `Order` object that includes the payments that you added.
           schema:
             $ref: '#/definitions/Order'
   /orders/{orderGuid}/checks/{checkGuid}/payments/{paymentGuid}:
@@ -1951,10 +1938,9 @@ paths:
           type: string
         - name: body
           description: |
-            A JSON <a href="#/definitions/Payment">`Payment`</a> object
-            containing the `tipAmount` value that will replace any
-            existing tip amount for the payment. Do not include any
-            value other than `tipAmount`.
+            A JSON `Payment` object containing the `tipAmount` value
+            that will replace any existing tip amount for the payment.
+            Do not include any value other than `tipAmount`.
           in: body
           required: true
           schema:
@@ -1962,8 +1948,7 @@ paths:
       responses:
         '200':
           description: |
-            A JSON <a href="#/definitions/Order">`Order`</a> object
-            that includes the tip amount that you updated.
+            A JSON `Order` object that includes the tip amount that you updated.
           schema:
             $ref: '#/definitions/Order'
   /orders/{orderGuid}/checks/{checkGuid}/appliedDiscounts:
@@ -1971,8 +1956,7 @@ paths:
       summary: Add check-level discounts
       description: |
         Adds one or more check-level discounts to a check in an
-        existing order. Include an array of <a
-        href="#/definitions/Discount">`Discount`</a> objects in the
+        existing order. Include an array of `Discount` objects in the
         message body.
         For more information, see <a
         href="http://dev.toasttab.com/Ie5QH/apiAddingDiscountsToChecks.html">Adding
@@ -1997,9 +1981,7 @@ paths:
           type: string
         - name: body
           description: |
-            A JSON array of <a
-            href="#/definitions/Discount">`Discount`</a> objects that
-            identify the discounts you are adding.
+            A JSON array of `Discount` objects that identify the discounts you are adding.
           in: body
           required: true
           schema:
@@ -2007,8 +1989,7 @@ paths:
       responses:
         '200':
           description: |
-            A JSON <a href="#/definitions/Order">`Order`</a> object
-            that includes the discount you added.
+            A JSON `Order` object that includes the discount you added.
           schema:
             $ref: '#/definitions/Order'
   /orders/{orderGuid}/checks/{checkGuid}/selections/{selectionGuid}/appliedDiscounts:
@@ -2016,8 +1997,7 @@ paths:
       summary: Add item-level discounts
       description: |
         Adds one or more item-level discounts to menu item selections
-        in a check in an existing order. Include an array of <a
-        href="#/definitions/Discount">`Discount`</a> objects in the
+        in a check in an existing order. Include an array of `Discount` objects in the
         message body.
         For more information, see <a
         href="http://dev.toasttab.com/Ie5QH/apiAddingDiscountsToChecks.html">Adding
@@ -2049,9 +2029,7 @@ paths:
           type: string
         - name: body
           description: |
-            A JSON array of <a
-            href="#/definitions/Discount">`Discount`</a> objects that
-            identify the discounts you are adding.
+            A JSON array of `Discount` objects that identify the discounts you are adding.
           in: body
           required: true
           schema:
@@ -2059,14 +2037,13 @@ paths:
       responses:
         '200':
           description: |
-            A JSON <a href="#/definitions/Order">`Order`</a> object
-            that includes the discount you added.
+            A JSON `Order` object that includes the discount you added.
           schema:
             $ref: '#/definitions/Order'
   /orders:
     post:
       summary: Post order
-      description: Submits an order to the server. Returns a JSON <a href="#/definitions/Order">Order</a> object if successful.
+      description: Submits an order to the server. Returns a JSON `Order` object if successful.
       operationId: ordersPost
       produces:
         - application/json
@@ -2085,7 +2062,7 @@ paths:
             example: {"entityType": "Order",  "diningOption": { "guid": "18855a26-40d4-4a8f-b484-c6af211dd597",    "entityType": "DiningOption"  },  "marketplaceFacilitatorTaxInfo": {    "facilitatorCollectAndRemitTaxOrder": true   },   "checks": [    {      "entityType": "Check",      "displayNumber": "pdesjardins-api-1627646263",      "selections": [        {          "entityType": "MenuItemSelection",          "itemGroup": {             "guid": "881472e6-dd94-48c6-b5c6-25e51a864208",            "entityType": "MenuGroup"          },          "item": {            "entityType": "MenuItem",            "guid": "9c59d4ab-8242-450f-8f36-b16e1b3ab802"           },           "quantity": 1,          "modifiers": []        }      ],      "customer": {          "entityType": "Customer",          "firstName": "Severe",          "lastName": "Thibault",           "phone": "555-555-5555",          "email": "severe@example.com"      },      "payments" :[        {          "otherPayment": {            "guid": "0dc19214-d29e-4ab9-a773-27e5812999c7"           },          "type": "OTHER",          "amount": 8.50,          "tipAmount": "0"        }      ]    }  ],   "deliveryInfo": {     "address1": "401 Park Drive",     "address2": "Suite 801",     "city": "Boston",     "state": "MA",     "zipCode": "02215",     "latitude": 42.3446671,     "longitude": -71.1023575,     "notes": "Please ring the doorbell."   } }
       responses:
         '200':
-          description: A JSON <a href="#/definitions/Order">Order</a> object that has been persisted in Toast. The returned Order contains generated property values for the check amounts, taxes, service charges, and GUIDs for persisted entities.
+          description: A JSON `Order` object that has been persisted in Toast. The returned Order contains generated property values for the check amounts, taxes, service charges, and GUIDs for persisted entities.
           schema:
             $ref: '#/definitions/OrderResponse'
           examples: {"application/json":{"guid":"89488287-f259-435b-a654-0bc391596af0","entityType":"Order","externalId":null,"revenueCenter":null,"server":{"guid":"c89d1e72-1888-469f-a24b-506c66eafab7","entityType":"RestaurantUser","externalId":null},"lastModifiedDevice":{"id":null},"source":"API","voidDate":null,"duration":null,"businessDate":20210730,"paidDate":null,"restaurantService":null,"voided":false,"estimatedFulfillmentDate":"2021-07-30T12:12:46.235+0000","table":null,"requiredPrepTime":"PT15M","approvalStatus":"NEEDS_APPROVAL","deliveryInfo":{"address1":"401 Park Drive","address2":"Suite 801","city":"Boston","state":"MA","zipCode":"02215","latitude":42.3446671,"longitude":-71.1023575,"notes":"Please ring the doorbell.","deliveredDate":null,"dispatchedDate":null,"deliveryEmployee":null,"deliveryState":null},"serviceArea":null,"curbsidePickupInfo":null,"numberOfGuests":1,"diningOption":{"guid":"18855a26-40d4-4a8f-b484-c6af211dd597","entityType":"DiningOption","externalId":null},"openedDate":"2021-07-30T11:57:46.235+0000","voidBusinessDate":null,"checks":[{"guid":"cbcb6fd5-d973-4e44-9b91-2abcee5ea6cd","entityType":"Check","externalId":null,"displayNumber":"pdesjardins-api-1627646263","payments":[{"guid":"88642b2d-c359-4b96-bb8e-9cb3f5c2ac6a","entityType":"OrderPayment","externalId":null,"originalProcessingFee":null,"server":null,"cashDrawer":null,"lastModifiedDevice":{"id":null},"refundStatus":"NONE","type":"OTHER","voidInfo":null,"checkGuid":"cbcb6fd5-d973-4e44-9b91-2abcee5ea6cd","otherPayment":{"guid":"0dc19214-d29e-4ab9-a773-27e5812999c7","entityType":"AlternatePaymentType","externalId":null},"paidDate":"2021-07-30T11:57:46.237+0000","orderGuid":"89488287-f259-435b-a654-0bc391596af0","cardEntryMode":null,"paymentStatus":"CAPTURED","amount":8.5,"tipAmount":0.0,"amountTendered":null,"cardType":null,"houseAccount":null,"mcaRepaymentAmount":null,"createdDevice":{"id":null},"paidBusinessDate":20210730,"last4Digits":null,"refund":null}],"appliedDiscounts":[],"lastModifiedDevice":{"id":null},"voidDate":null,"paidDate":null,"appliedLoyaltyInfo":null,"voided":false,"paymentStatus":"OPEN","amount":5.0,"tabName":null,"taxExempt":false,"openedDate":"2021-07-30T11:57:46.235+0000","totalAmount":5.0,"selections":[{"guid":"2c8b6ece-c503-4f85-aed7-6a8c6526ba0d","entityType":"MenuItemSelection","externalId":null,"deferred":false,"preDiscountPrice":5.0,"voidReason":null,"optionGroup":null,"displayName":"蟹餅  CRAB CAKES","appliedDiscounts":[],"modifiers":[],"seatNumber":-1,"voidDate":null,"fulfillmentStatus":"NEW","optionGroupPricingMode":null,"salesCategory":{"guid":"c0915e46-341e-4ec0-b46e-cb87fab729fd","entityType":"SalesCategory","externalId":null},"selectionType":"NONE","price":5.0,"voided":false,"appliedTaxes":[],"itemGroup":{"guid":"881472e6-dd94-48c6-b5c6-25e51a864208","entityType":"MenuGroup","externalId":null},"item":{"guid":"9c59d4ab-8242-450f-8f36-b16e1b3ab802","entityType":"MenuItem","externalId":null},"taxInclusion":"NOT_INCLUDED","quantity":1.0,"receiptLinePrice":5.0,"unitOfMeasure":"NONE","refundDetails":null,"tax":0.0,"diningOption":{"guid":"18855a26-40d4-4a8f-b484-c6af211dd597","entityType":"DiningOption","externalId":null},"voidBusinessDate":null,"createdDate":"2021-07-30T11:57:46.269+0000","preModifier":null,"modifiedDate":"2021-07-30T11:57:46.269+0000"}],"voidBusinessDate":null,"createdDate":"2021-07-30T11:57:46.282+0000","deleted":false,"createdDevice":{"id":null},"closedDate":null,"deletedDate":null,"modifiedDate":"2021-07-30T11:57:46.282+0000","taxAmount":0.0,"appliedServiceCharges":[],"customer":{"guid":"970e92e6-33b3-4caa-876b-2c6ef528ef4e","entityType":"Customer","firstName":"Severe","lastName":"Thibault","phone":"5555555555","email":"severe@example.com"}}],"deleted":false,"createdDevice":{"id":null},"createdDate":"2021-07-30T11:57:46.286+0000","closedDate":null,"deletedDate":null,"modifiedDate":"2021-07-30T11:57:46.286+0000","promisedDate":null,"pricingFeatures":["TAXESV2"]}}
@@ -2170,8 +2147,7 @@ paths:
     post:
       summary: Get applicable discounts
       description: |
-        Returns an array of <a
-        href="#/definitions/ApplicableDiscount">`ApplicableDiscount`</a>
+        Returns an array of `ApplicableDiscount`
         objects that contain information about the discounts that apply
         to the checks and menu item selections in an order. Each
         `ApplicableDiscount` object contains information that you can
@@ -2191,17 +2167,15 @@ paths:
           type: string
         - name: body
           description: |
-            A JSON <a
-            href="#/definitions/ApplicableDiscountsRequest">ApplicableDiscountsRequest</a>
-            object containing information about an order, and an
-            optional promoCode.
+            A JSON `ApplicableDiscountsRequest` object containing
+            information about an order, and an optional promoCode.
           in: body
           required: true
           schema:
             $ref: '#/definitions/ApplicableDiscountsRequest'
       responses:
         '200':
-          description: A JSON array of <a href="#/definitions/ApplicableDiscount">`ApplicableDiscount`</a> objects.
+          description: A JSON array of `ApplicableDiscount` objects.
           schema:
             title: ApplicableDiscounts
             type: array
