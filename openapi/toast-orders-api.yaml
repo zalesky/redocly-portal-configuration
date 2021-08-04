@@ -1708,7 +1708,7 @@ paths:
            `requestId` attached to this error that can be referenced by
            the Toast support team.
     get:
-      tags:
+       tags:
         - Orders
        summary: Get order identifiers (deprecated)
        description: |
