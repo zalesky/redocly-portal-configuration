@@ -7,6 +7,8 @@ info:
     Operations that create and retrieve information about restaurant
     guest orders. Information on orders includes checks, items ordered,
     prices, and discounts.
+  contact:
+    name: Toast API Support
 schemes:
   - https
 host: toast-api-server
