@@ -1606,6 +1606,7 @@ paths:
           description: The specified Order was not found.
         '500':
           description: There was a problem serializing the Order entity.
+          
   /ordersBulk:
     get:
       tags:
@@ -1709,6 +1710,8 @@ paths:
            An unexpected internal error occurred. There is a
            `requestId` attached to this error that can be referenced by
            the Toast support team.
+ 
+  /orders:
     get:
        tags:
         - Orders
@@ -1776,6 +1779,43 @@ paths:
            description: The request contains data that is not supported by the current version of the API as described. e.g. specifying credit card as the payment type.
          '500':
            description: An unexpected internal error occurred. There is a requestId attached to this error that can be referenced by Toast.
+    post:
+      tags:
+        - Orders
+      summary: Post order
+      description: Submits an order to the server. Returns a JSON `Order` object if successful.
+      operationId: ordersPost
+      produces:
+        - application/json
+      parameters:
+        - name: Toast-Restaurant-External-ID
+          description: The identifier for the restaurant where this order was placed.
+          in: header
+          required: true
+          type: string
+        - name: body
+          description: A JSON object containing information about an order.
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/Order'
+            example: {"entityType": "Order",  "diningOption": { "guid": "18855a26-40d4-4a8f-b484-c6af211dd597",    "entityType": "DiningOption"  },  "marketplaceFacilitatorTaxInfo": {    "facilitatorCollectAndRemitTaxOrder": true   },   "checks": [    {      "entityType": "Check",      "displayNumber": "pdesjardins-api-1627646263",      "selections": [        {          "entityType": "MenuItemSelection",          "itemGroup": {             "guid": "881472e6-dd94-48c6-b5c6-25e51a864208",            "entityType": "MenuGroup"          },          "item": {            "entityType": "MenuItem",            "guid": "9c59d4ab-8242-450f-8f36-b16e1b3ab802"           },           "quantity": 1,          "modifiers": []        }      ],      "customer": {          "entityType": "Customer",          "firstName": "Severe",          "lastName": "Thibault",           "phone": "555-555-5555",          "email": "severe@example.com"      },      "payments" :[        {          "otherPayment": {            "guid": "0dc19214-d29e-4ab9-a773-27e5812999c7"           },          "type": "OTHER",          "amount": 8.50,          "tipAmount": "0"        }      ]    }  ],   "deliveryInfo": {     "address1": "401 Park Drive",     "address2": "Suite 801",     "city": "Boston",     "state": "MA",     "zipCode": "02215",     "latitude": 42.3446671,     "longitude": -71.1023575,     "notes": "Please ring the doorbell."   } }
+      responses:
+        '200':
+          description: A JSON `Order` object that has been persisted in Toast. The returned Order contains generated property values for the check amounts, taxes, service charges, and GUIDs for persisted entities.
+          schema:
+            $ref: '#/definitions/OrderResponse'
+          examples: {"application/json":{"guid":"89488287-f259-435b-a654-0bc391596af0","entityType":"Order","externalId":null,"revenueCenter":null,"server":{"guid":"c89d1e72-1888-469f-a24b-506c66eafab7","entityType":"RestaurantUser","externalId":null},"lastModifiedDevice":{"id":null},"source":"API","voidDate":null,"duration":null,"businessDate":20210730,"paidDate":null,"restaurantService":null,"voided":false,"estimatedFulfillmentDate":"2021-07-30T12:12:46.235+0000","table":null,"requiredPrepTime":"PT15M","approvalStatus":"NEEDS_APPROVAL","deliveryInfo":{"address1":"401 Park Drive","address2":"Suite 801","city":"Boston","state":"MA","zipCode":"02215","latitude":42.3446671,"longitude":-71.1023575,"notes":"Please ring the doorbell.","deliveredDate":null,"dispatchedDate":null,"deliveryEmployee":null,"deliveryState":null},"serviceArea":null,"curbsidePickupInfo":null,"numberOfGuests":1,"diningOption":{"guid":"18855a26-40d4-4a8f-b484-c6af211dd597","entityType":"DiningOption","externalId":null},"openedDate":"2021-07-30T11:57:46.235+0000","voidBusinessDate":null,"checks":[{"guid":"cbcb6fd5-d973-4e44-9b91-2abcee5ea6cd","entityType":"Check","externalId":null,"displayNumber":"pdesjardins-api-1627646263","payments":[{"guid":"88642b2d-c359-4b96-bb8e-9cb3f5c2ac6a","entityType":"OrderPayment","externalId":null,"originalProcessingFee":null,"server":null,"cashDrawer":null,"lastModifiedDevice":{"id":null},"refundStatus":"NONE","type":"OTHER","voidInfo":null,"checkGuid":"cbcb6fd5-d973-4e44-9b91-2abcee5ea6cd","otherPayment":{"guid":"0dc19214-d29e-4ab9-a773-27e5812999c7","entityType":"AlternatePaymentType","externalId":null},"paidDate":"2021-07-30T11:57:46.237+0000","orderGuid":"89488287-f259-435b-a654-0bc391596af0","cardEntryMode":null,"paymentStatus":"CAPTURED","amount":8.5,"tipAmount":0.0,"amountTendered":null,"cardType":null,"houseAccount":null,"mcaRepaymentAmount":null,"createdDevice":{"id":null},"paidBusinessDate":20210730,"last4Digits":null,"refund":null}],"appliedDiscounts":[],"lastModifiedDevice":{"id":null},"voidDate":null,"paidDate":null,"appliedLoyaltyInfo":null,"voided":false,"paymentStatus":"OPEN","amount":5.0,"tabName":null,"taxExempt":false,"openedDate":"2021-07-30T11:57:46.235+0000","totalAmount":5.0,"selections":[{"guid":"2c8b6ece-c503-4f85-aed7-6a8c6526ba0d","entityType":"MenuItemSelection","externalId":null,"deferred":false,"preDiscountPrice":5.0,"voidReason":null,"optionGroup":null,"displayName":"蟹餅  CRAB CAKES","appliedDiscounts":[],"modifiers":[],"seatNumber":-1,"voidDate":null,"fulfillmentStatus":"NEW","optionGroupPricingMode":null,"salesCategory":{"guid":"c0915e46-341e-4ec0-b46e-cb87fab729fd","entityType":"SalesCategory","externalId":null},"selectionType":"NONE","price":5.0,"voided":false,"appliedTaxes":[],"itemGroup":{"guid":"881472e6-dd94-48c6-b5c6-25e51a864208","entityType":"MenuGroup","externalId":null},"item":{"guid":"9c59d4ab-8242-450f-8f36-b16e1b3ab802","entityType":"MenuItem","externalId":null},"taxInclusion":"NOT_INCLUDED","quantity":1.0,"receiptLinePrice":5.0,"unitOfMeasure":"NONE","refundDetails":null,"tax":0.0,"diningOption":{"guid":"18855a26-40d4-4a8f-b484-c6af211dd597","entityType":"DiningOption","externalId":null},"voidBusinessDate":null,"createdDate":"2021-07-30T11:57:46.269+0000","preModifier":null,"modifiedDate":"2021-07-30T11:57:46.269+0000"}],"voidBusinessDate":null,"createdDate":"2021-07-30T11:57:46.282+0000","deleted":false,"createdDevice":{"id":null},"closedDate":null,"deletedDate":null,"modifiedDate":"2021-07-30T11:57:46.282+0000","taxAmount":0.0,"appliedServiceCharges":[],"customer":{"guid":"970e92e6-33b3-4caa-876b-2c6ef528ef4e","entityType":"Customer","firstName":"Severe","lastName":"Thibault","phone":"5555555555","email":"severe@example.com"}}],"deleted":false,"createdDevice":{"id":null},"createdDate":"2021-07-30T11:57:46.286+0000","closedDate":null,"deletedDate":null,"modifiedDate":"2021-07-30T11:57:46.286+0000","promisedDate":null,"pricingFeatures":["TAXESV2"]}}
+        '400':
+          description: Either the request contains data that is not supported by the current version of the API as described (e.g. specifying credit card as the payment type.), or the order contains an item that is negatively priced.
+        '404':
+          description: An entity referenced in the order does not exist, or belongs to a restaurant the authenticated client is not authorized to access.
+        '413':
+          description: The number of checks in the submitted order exceeds the limit.
+        '415':
+          description: The request did not have "application/json" in the Content-Type header.
+        '500':
+          description: An unexpected internal error occurred. There is a requestId attached to this error that can be referenced by Toast.
 
   /payments/{guid}:
     get:
@@ -1937,44 +1977,8 @@ paths:
             An unexpected internal error occurred. There is a
             `requestId` attached to the error that can be referenced by
             the Toast support team.
-  /orders:
-    post:
-      tags:
-        - Orders
-      summary: Post order
-      description: Submits an order to the server. Returns a JSON `Order` object if successful.
-      operationId: ordersPost
-      produces:
-        - application/json
-      parameters:
-        - name: Toast-Restaurant-External-ID
-          description: The identifier for the restaurant where this order was placed.
-          in: header
-          required: true
-          type: string
-        - name: body
-          description: A JSON object containing information about an order.
-          in: body
-          required: true
-          schema:
-            $ref: '#/definitions/Order'
-            example: {"entityType": "Order",  "diningOption": { "guid": "18855a26-40d4-4a8f-b484-c6af211dd597",    "entityType": "DiningOption"  },  "marketplaceFacilitatorTaxInfo": {    "facilitatorCollectAndRemitTaxOrder": true   },   "checks": [    {      "entityType": "Check",      "displayNumber": "pdesjardins-api-1627646263",      "selections": [        {          "entityType": "MenuItemSelection",          "itemGroup": {             "guid": "881472e6-dd94-48c6-b5c6-25e51a864208",            "entityType": "MenuGroup"          },          "item": {            "entityType": "MenuItem",            "guid": "9c59d4ab-8242-450f-8f36-b16e1b3ab802"           },           "quantity": 1,          "modifiers": []        }      ],      "customer": {          "entityType": "Customer",          "firstName": "Severe",          "lastName": "Thibault",           "phone": "555-555-5555",          "email": "severe@example.com"      },      "payments" :[        {          "otherPayment": {            "guid": "0dc19214-d29e-4ab9-a773-27e5812999c7"           },          "type": "OTHER",          "amount": 8.50,          "tipAmount": "0"        }      ]    }  ],   "deliveryInfo": {     "address1": "401 Park Drive",     "address2": "Suite 801",     "city": "Boston",     "state": "MA",     "zipCode": "02215",     "latitude": 42.3446671,     "longitude": -71.1023575,     "notes": "Please ring the doorbell."   } }
-      responses:
-        '200':
-          description: A JSON `Order` object that has been persisted in Toast. The returned Order contains generated property values for the check amounts, taxes, service charges, and GUIDs for persisted entities.
-          schema:
-            $ref: '#/definitions/OrderResponse'
-          examples: {"application/json":{"guid":"89488287-f259-435b-a654-0bc391596af0","entityType":"Order","externalId":null,"revenueCenter":null,"server":{"guid":"c89d1e72-1888-469f-a24b-506c66eafab7","entityType":"RestaurantUser","externalId":null},"lastModifiedDevice":{"id":null},"source":"API","voidDate":null,"duration":null,"businessDate":20210730,"paidDate":null,"restaurantService":null,"voided":false,"estimatedFulfillmentDate":"2021-07-30T12:12:46.235+0000","table":null,"requiredPrepTime":"PT15M","approvalStatus":"NEEDS_APPROVAL","deliveryInfo":{"address1":"401 Park Drive","address2":"Suite 801","city":"Boston","state":"MA","zipCode":"02215","latitude":42.3446671,"longitude":-71.1023575,"notes":"Please ring the doorbell.","deliveredDate":null,"dispatchedDate":null,"deliveryEmployee":null,"deliveryState":null},"serviceArea":null,"curbsidePickupInfo":null,"numberOfGuests":1,"diningOption":{"guid":"18855a26-40d4-4a8f-b484-c6af211dd597","entityType":"DiningOption","externalId":null},"openedDate":"2021-07-30T11:57:46.235+0000","voidBusinessDate":null,"checks":[{"guid":"cbcb6fd5-d973-4e44-9b91-2abcee5ea6cd","entityType":"Check","externalId":null,"displayNumber":"pdesjardins-api-1627646263","payments":[{"guid":"88642b2d-c359-4b96-bb8e-9cb3f5c2ac6a","entityType":"OrderPayment","externalId":null,"originalProcessingFee":null,"server":null,"cashDrawer":null,"lastModifiedDevice":{"id":null},"refundStatus":"NONE","type":"OTHER","voidInfo":null,"checkGuid":"cbcb6fd5-d973-4e44-9b91-2abcee5ea6cd","otherPayment":{"guid":"0dc19214-d29e-4ab9-a773-27e5812999c7","entityType":"AlternatePaymentType","externalId":null},"paidDate":"2021-07-30T11:57:46.237+0000","orderGuid":"89488287-f259-435b-a654-0bc391596af0","cardEntryMode":null,"paymentStatus":"CAPTURED","amount":8.5,"tipAmount":0.0,"amountTendered":null,"cardType":null,"houseAccount":null,"mcaRepaymentAmount":null,"createdDevice":{"id":null},"paidBusinessDate":20210730,"last4Digits":null,"refund":null}],"appliedDiscounts":[],"lastModifiedDevice":{"id":null},"voidDate":null,"paidDate":null,"appliedLoyaltyInfo":null,"voided":false,"paymentStatus":"OPEN","amount":5.0,"tabName":null,"taxExempt":false,"openedDate":"2021-07-30T11:57:46.235+0000","totalAmount":5.0,"selections":[{"guid":"2c8b6ece-c503-4f85-aed7-6a8c6526ba0d","entityType":"MenuItemSelection","externalId":null,"deferred":false,"preDiscountPrice":5.0,"voidReason":null,"optionGroup":null,"displayName":"蟹餅  CRAB CAKES","appliedDiscounts":[],"modifiers":[],"seatNumber":-1,"voidDate":null,"fulfillmentStatus":"NEW","optionGroupPricingMode":null,"salesCategory":{"guid":"c0915e46-341e-4ec0-b46e-cb87fab729fd","entityType":"SalesCategory","externalId":null},"selectionType":"NONE","price":5.0,"voided":false,"appliedTaxes":[],"itemGroup":{"guid":"881472e6-dd94-48c6-b5c6-25e51a864208","entityType":"MenuGroup","externalId":null},"item":{"guid":"9c59d4ab-8242-450f-8f36-b16e1b3ab802","entityType":"MenuItem","externalId":null},"taxInclusion":"NOT_INCLUDED","quantity":1.0,"receiptLinePrice":5.0,"unitOfMeasure":"NONE","refundDetails":null,"tax":0.0,"diningOption":{"guid":"18855a26-40d4-4a8f-b484-c6af211dd597","entityType":"DiningOption","externalId":null},"voidBusinessDate":null,"createdDate":"2021-07-30T11:57:46.269+0000","preModifier":null,"modifiedDate":"2021-07-30T11:57:46.269+0000"}],"voidBusinessDate":null,"createdDate":"2021-07-30T11:57:46.282+0000","deleted":false,"createdDevice":{"id":null},"closedDate":null,"deletedDate":null,"modifiedDate":"2021-07-30T11:57:46.282+0000","taxAmount":0.0,"appliedServiceCharges":[],"customer":{"guid":"970e92e6-33b3-4caa-876b-2c6ef528ef4e","entityType":"Customer","firstName":"Severe","lastName":"Thibault","phone":"5555555555","email":"severe@example.com"}}],"deleted":false,"createdDevice":{"id":null},"createdDate":"2021-07-30T11:57:46.286+0000","closedDate":null,"deletedDate":null,"modifiedDate":"2021-07-30T11:57:46.286+0000","promisedDate":null,"pricingFeatures":["TAXESV2"]}}
-        '400':
-          description: Either the request contains data that is not supported by the current version of the API as described (e.g. specifying credit card as the payment type.), or the order contains an item that is negatively priced.
-        '404':
-          description: An entity referenced in the order does not exist, or belongs to a restaurant the authenticated client is not authorized to access.
-        '413':
-          description: The number of checks in the submitted order exceeds the limit.
-        '415':
-          description: The request did not have "application/json" in the Content-Type header.
-        '500':
-          description: An unexpected internal error occurred. There is a requestId attached to this error that can be referenced by Toast.
+
+
   /orders/{orderGuid}/checks/{checkGuid}/payments:
     post:
       tags:
