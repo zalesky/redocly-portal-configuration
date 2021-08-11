@@ -54,10 +54,13 @@ export default function NavBar(props) {
   );
 }
 
-const NavWrapper = styled.div<{ hasBackground: boolean }>`
+const NavWrapper = styled.nav<{ hasBackground: boolean }>`
   background: ${({ hasBackground }) => (hasBackground ? '#ffffff' : 'transparent')};
   border-bottom: ${({ hasBackground }) => (hasBackground ? '3px solid #E5E5E5' : 'none')};
   display: flex;
+  position: sticky;
+  top: 0;
+  z-index: 50;
 `;
 
 const NavItems = styled.ul`
